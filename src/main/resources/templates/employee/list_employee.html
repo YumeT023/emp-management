@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Employee List</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div th:replace="fragments/header"></div>
+    <h1>Employee List</h1>
+    <a class="export-link" href="/employees/export-csv">Export as CSV</a>
+    <table>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Date of Birth</th>
+        <th>Registration Number</th>
+        <th>Details</th>
+      </tr>
+      <tr th:each="employee : ${employees}">
+        <td th:text="${employee.firstname}"></td>
+        <td th:text="${employee.lastname}"></td>
+        <td th:text="${employee.birthdate}"></td>
+        <td>
+          <a th:href="@{'/employees/' + ${employee.matriculate}}">Infos</a>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
