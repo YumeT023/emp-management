@@ -20,11 +20,11 @@
       th:object="${employee}"
     >
       <label for="firstName">First Name:</label>
-      <input id="firstName" required th:field="*{firstName}" type="text" />
+      <input id="firstName" required th:field="*{firstname}" type="text" />
       <br />
 
       <label for="lastName">Last Name:</label>
-      <input id="lastName" required th:field="*{lastName}" type="text" />
+      <input id="lastName" required th:field="*{lastname}" type="text" />
       <br />
 
       <label for="dateOfBirth">Date of Birth:</label>
@@ -39,11 +39,8 @@
 
       <label for="sex">Sex:</label>
       <select id="sex" required th:field="*{sex}">
-        <option
-          th:each="sexOption : ${sexOptions}"
-          th:text="${sexOption.name()}"
-          th:value="${sexOption}"
-        ></option>
+        <option th:value="M">Male</option>
+        <option th:value="F">Female</option>
       </select>
       <br />
 

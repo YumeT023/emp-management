@@ -16,8 +16,8 @@ import java.util.List;
 @Builder
 public class ModelEmployee {
     private String matriculate;
-    private String lastName;
-    private String firstName;
+    private String lastname;
+    private String firstname;
     private LocalDate birthdate;
     private Sex sex;
     private String phone;

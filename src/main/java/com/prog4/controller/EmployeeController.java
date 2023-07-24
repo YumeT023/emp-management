@@ -13,6 +13,7 @@ import com.prog4.service.validator.AlphanumericValidator;
 import java.io.IOException;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @AllArgsConstructor
 @Controller
 @RequestMapping("/employees")
+@Slf4j
 public class EmployeeController {
 
   private final EmployeeService employeeService;
@@ -37,11 +39,6 @@ public class EmployeeController {
   public String getAllEmployees(Model model) {
     model.addAttribute("employees", employeeService.findAll());
     return "employee/list-employee";
-  }
-
-  @ModelAttribute("sexOptions")
-  public Sex[] getSexOptions() {
-    return Sex.values();
   }
 
   @ModelAttribute("socioProCategories")
@@ -86,11 +83,12 @@ public class EmployeeController {
     return "employee/update-employee";
   }
 
-//  @PostMapping("/update")
-//  public String updateEmployee(@ModelAttribute("newEmployee") Employee modelEmployee) throws IOException {
-//    SocioPro socioPro = socioProService.getByCategory(modelEmployee.getCateSocioPro().getCategories());
-//    socioPro.setCategories(modelEmployee.getCateSocioPro().getCategories());
-//    Employee employee = mapper.toUpdate(socioPro, modelEmployee);
-//    return "redirect:/employees/" + employee.getMatriculate();
-//  }
+  @PostMapping("/update")
+  public String updateEmployee(@ModelAttribute ModelEmployee updated) throws IOException {
+    log.info("updated matriculate: {}", updated.getMatriculate());
+    var entity = mapper.toEntity(updated);
+    nationalCardService.save(entity.getNationalCard());
+    employeeService.save(entity);
+    return "redirect:/employees/" + entity.getMatriculate();
+  }
 }

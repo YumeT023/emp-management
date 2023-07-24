@@ -21,7 +21,7 @@ public class EmployeeMapper {
   private SocioProService socioProService;
 
   public Employee toEntity(ModelEmployee model) throws IOException {
-    String photo = byteToBase64(model.getPhoto().getBytes());
+    String photo = model.getPhoto() != null ? byteToBase64(model.getPhoto().getBytes()) : null;
     SocioPro socioProCategory = model.getSocioPro() != null ?
         socioProService.getById(model.getSocioPro())
         : null;
@@ -35,8 +35,8 @@ public class EmployeeMapper {
     return Employee.builder()
         .matriculate(model.getMatriculate())
         .dependents(model.getDependents())
-        .firstname(model.getFirstName())
-        .lastname(model.getLastName())
+        .firstname(model.getFirstname())
+        .lastname(model.getLastname())
         .personalEmail(model.getPersonalEmail())
         .proEmail(model.getProEmail())
         .proEmail(model.getProEmail())
@@ -51,6 +51,33 @@ public class EmployeeMapper {
         .jobRole(jobRole)
         .socioProCategory(socioProCategory)
         .photo(photo)
+        .build();
+  }
+
+  public ModelEmployee toModel(Employee model) throws IOException {
+    var nationalCard = model.getNationalCard();
+
+    return ModelEmployee.builder()
+        .matriculate(model.getMatriculate())
+        .matriculate(model.getMatriculate())
+        .dependents(model.getDependents())
+        .firstname(model.getFirstname())
+        .lastname(model.getLastname())
+        .personalEmail(model.getPersonalEmail())
+        .proEmail(model.getProEmail())
+        .proEmail(model.getProEmail())
+        .phone(model.getPhone())
+        .hireDate(model.getHireDate())
+        .departureDate(model.getDepartureDate())
+        .address(model.getAddress())
+        .birthdate(model.getBirthdate())
+        .cnapsNumber(model.getCnapsNumber())
+        .sex(model.getSex())
+        .cinDateIssue(nationalCard.getDateIssue())
+        .cinPlaceIssue(nationalCard.getPlaceIssue())
+        .cinNumber(nationalCard.getNumber())
+        .jobRole(model.getJobRole().getId())
+        .socioPro(model.getSocioProCategory().getId())
         .build();
   }
 }
