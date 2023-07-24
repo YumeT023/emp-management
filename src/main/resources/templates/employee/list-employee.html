@@ -11,23 +11,25 @@
     />
   </head>
   <body>
-    <div th:replace="fragments/header"></div>
     <h1>Employee List</h1>
-    <a class="export-link" href="/employees/export-csv">Export as CSV</a>
-    <table>
+    <a th:href="@{'/employees/add'}">add employees</a>
+    <div th:if="${employees.size() == 0}">No employee to show</div>
+    <table th:if="${employees.size() > 0}">
       <tr>
         <th>First Name</th>
         <th>Last Name</th>
         <th>Date of Birth</th>
-        <th>Registration Number</th>
-        <th>Details</th>
+        <th>More info</th>
       </tr>
       <tr th:each="employee : ${employees}">
         <td th:text="${employee.firstname}"></td>
         <td th:text="${employee.lastname}"></td>
         <td th:text="${employee.birthdate}"></td>
         <td>
-          <a th:href="@{'/employees/' + ${employee.matriculate}}">Infos</a>
+          <a
+            th:href="@{'/employees/show/' + ${employee.matriculate}}"
+            th:value="${employee.matriculate}"
+          ></a>
         </td>
       </tr>
     </table>

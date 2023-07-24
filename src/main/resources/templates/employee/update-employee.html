@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Employee</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+</head>
+<body>
+<div th:replace="fragments/header"></div>
+<h1>Update Employee</h1>
+<form enctype="multipart/form-data" method="jobRole" th:action="@{/employees/update}" th:object="${newEmployee}">
+
+    <label for="firstName">First Name:</label>
+    <input id="firstName" required th:field="*{firstname}" type="text"/>
+    <br/>
+
+    <label for="lastName">Last Name:</label>
+    <input id="lastName" required th:field="*{lastname}" type="text"/>
+    <br/>
+
+    <label for="dateOfBirth">Date of Birth:</label>
+    <input id="dateOfBirth" pattern="yyyy-MM-dd" required th:field="*{birthdate}" type="date"/>
+    <br/>
+
+    <label for="sex">Sex:</label>
+    <select id="sex" required th:field="*{sex}">
+        <option th:value="M">Male</option>
+        <option th:value="F">Female</option>
+    </select>
+    <br/>
+
+    <label for="phoneNbr">Phone Number:</label>
+    <input id="phoneNbr" required th:field="*{phone}" type="text">
+    <br/>
+
+    <label for="address">Address:</label>
+    <input id="address" required th:field="*{address}" type="text">
+    <br/>
+
+    <!--<label for="photo">Identity Photo:</label>
+    <input type="file" id="photo" name="photo" th:field="*{image}">
+    <br/>-->
+
+    <label for="beggingDate">Hiring Date:</label>
+    <input id="beggingDate" pattern="yyyy-MM-dd" required th:field="*{hireDate}" type="date"/>
+    <br/>
+
+    <label for="outDate">Departure Date:</label>
+    <input id="outDate" pattern="yyyy-MM-dd" th:field="*{departureDate}" type="date"/>
+    <br/>
+
+    <label for="emailPerso">Personal Email:</label>
+    <input id="emailPerso" required th:field="*{personalEmail}" type="email">
+    <br/>
+
+    <label for="emailPro">Professional Email:</label>
+    <input id="emailPro" required th:field="*{proEmail}" type="email">
+    <br/>
+
+    <label for="dependents">Number of Children:</label>
+    <input id="dependents" required th:field="*{dependents}" type="number">
+    <br/>
+
+
+    <label for="socioPro">Socio-Professional Category:</label>
+    <select id="socioPro" required th:field="*{socioProCategory}" th:value="*{socioProCategory.name}">
+        <option value="">-- Select Socio-Professional Category --</option>
+        <option
+                th:each="socioProCategory : ${socioProCategories}"
+                th:text="${socioProCategory.name}"
+                th:value="${socioProCategory.id}"
+        ></option>
+    </select>
+    <br/>
+
+
+    <label for="cin">National Card:</label>
+    <input id="cin" required th:field="*{cin.number}" type="text">
+    <br/>
+
+    <label for="cinPlace">National Card Place:</label>
+    <input id="cinPlace" required th:field="*{cin.place}" type="text">
+    <br/>
+
+    <label for="cinDate">National Card Date:</label>
+    <input id="cinDate" pattern="yyyy-MM-dd" th:field="*{cin.date}" type="date"/>
+    <br/>
+
+    <label>Posts:</label>
+    <div th:each="jobRole : ${suggestedPostProOptions}">
+        <input id="${jobRole.id}" th:field="*{postsList}" th:value="*{id}" type="checkbox">
+        <label th:for="*{id}" th:text="${jobRole.nameOfPost}"></label>
+    </div>
+    <br/>
+
+
+    <label for="cnaps_number">CNAPS Number:</label>
+    <input id="cnaps_number" required th:field="*{cnapsNumber}" type="text">
+    <br/>
+<!--    <p class="cinError" th:if="${cnapsError}" th:text="${cnapsError}"></p>-->
+
+    <button type="submit">Update</button>
+
+</form>
+</body>
+</html>

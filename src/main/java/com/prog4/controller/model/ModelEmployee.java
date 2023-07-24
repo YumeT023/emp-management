@@ -1,8 +1,11 @@
 package com.prog4.controller.model;
 
-import com.prog4.entity.*;
+import com.prog4.entity.Sex;
 import java.time.LocalDate;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -26,9 +29,10 @@ public class ModelEmployee {
     private LocalDate departureDate;
     private int dependents;
     private Long socioPro;
-    private String cinNumber;
-    private String cinDate;
-    private String cinPlace;
+    private Long jobRole;
     private List<String> postsList;
     private String cnapsNumber;
+    private String cinNumber;
+    private String cinPlaceIssue;
+    private LocalDate cinDateIssue;
 }

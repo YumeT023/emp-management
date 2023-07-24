@@ -2,20 +2,17 @@ package com.prog4.controller;
 
 import com.prog4.controller.mapper.EmployeeMapper;
 import com.prog4.controller.model.ModelEmployee;
-import com.prog4.entity.Employee;
-import com.prog4.entity.Post;
+import com.prog4.entity.JobRole;
 import com.prog4.entity.Sex;
 import com.prog4.entity.SocioPro;
 import com.prog4.service.EmployeeService;
-import com.prog4.service.PostsService;
+import com.prog4.service.JobRoleService;
+import com.prog4.service.NationalCardService;
 import com.prog4.service.SocioProService;
 import com.prog4.service.validator.AlphanumericValidator;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,15 +27,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class EmployeeController {
 
   private final EmployeeService employeeService;
-  private final PostsService postsService;
+  private final JobRoleService jobRoleService;
   private final SocioProService socioProService;
+  private final NationalCardService nationalCardService;
   private EmployeeMapper mapper;
-  private final AlphanumericValidator validator;
+  private final AlphanumericValidator alphanumericValidator;
 
   @GetMapping
   public String getAllEmployees(Model model) {
     model.addAttribute("employees", employeeService.findAll());
-    return "employee/list_employee";
+    return "employee/list-employee";
   }
 
   @ModelAttribute("sexOptions")
@@ -46,14 +44,14 @@ public class EmployeeController {
     return Sex.values();
   }
 
-  @ModelAttribute("suggestedSocioProOptions")
-  public List<SocioPro> getSuggestedSocioProOptions() {
+  @ModelAttribute("socioProCategories")
+  public List<SocioPro> getSocioProCategories() {
     return socioProService.findAll();
   }
 
-  @ModelAttribute("suggestedPostProOptions")
-  public List<Post> getSuggestedPostProOptions() {
-    return postsService.findAll();
+  @ModelAttribute("jobRoles")
+  public List<JobRole> getAvailableJobRole() {
+    return jobRoleService.findAll();
   }
 
   @GetMapping("/add")
@@ -65,20 +63,18 @@ public class EmployeeController {
   @PostMapping("/add")
   public String addEmployee(@ModelAttribute ModelEmployee employee, Model modelError) throws IOException {
     try {
-      if (validator.checkIfAlphanumeric(employee.getCinNumber())) {
-        var saved = employeeService.save(mapper.toEntity(employee));
-        return "redirect:/employees/" + saved.getMatriculate();
-      }
-      modelError.addAttribute("cnapsError", "cnaps number must be alphanumeric only [a-zA-Z0-9]");
-      return "employee/add-employee";
-    } catch (DataIntegrityViolationException ex) {
-      modelError.addAttribute("errorMessage", "Registration number must be unique.");
+      alphanumericValidator.accept(employee.getCnapsNumber());
+      var entity = mapper.toEntity(employee);
+      nationalCardService.save(entity.getNationalCard());
+      var saved = employeeService.save(entity);
+      return "redirect:/employees/show/".concat(saved.getMatriculate());
+    } catch (Exception e) {
+      modelError.addAttribute("errorMessage", e.getMessage());
       return "employee/add-employee";
     }
   }
 
-
-  @GetMapping("/{matriculate}")
+  @GetMapping("/show/{matriculate}")
   public String renderEmployeeDetails(@PathVariable String matriculate, Model model) {
     model.addAttribute("employee", employeeService.findByMatriculate(matriculate));
     return "employee/profiles";
@@ -97,37 +93,4 @@ public class EmployeeController {
 //    Employee employee = mapper.toUpdate(socioPro, modelEmployee);
 //    return "redirect:/employees/" + employee.getMatriculate();
 //  }
-
-  @GetMapping("/export-csv")
-  public void exportCsv(HttpServletResponse response) throws IOException {
-    List<Employee> employees = employeeService.findAll();
-
-    response.setContentType("text/csv");
-    response.setHeader("Content-Disposition", "attachment; filename=\"employees.csv\"");
-
-    try (PrintWriter writer = response.getWriter()) {
-      writer.println("First Name,Last Name,Date of Birth,Registration Number");
-      for (Employee employee : employees) {
-        writer.println(
-            employee.getFirstname() + "," +
-                employee.getLastname() + "," +
-                employee.getBirthdate() + "," +
-                employee.getSex() + "," +
-                employee.getPhone() + "," +
-                employee.getAddress() + "," +
-                employee.getPersonalEmail() + "," +
-                employee.getProEmail() + "," +
-                employee.getHireDate() + "," +
-                employee.getDepartureDate() + "," +
-                employee.getDependents() + "," +
-                employee.getSocioProCategory().getCategories() + "," +
-                employee.getCin().getNumber() + "," +
-                employee.getCin().getDate() + "," +
-                employee.getCin().getPlace() + "," +
-                employee.getCnapsNumber()
-        );
-      }
-    }
-  }
-
 }

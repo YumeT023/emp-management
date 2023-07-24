@@ -1,15 +1,13 @@
 package com.prog4.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,16 +44,17 @@ public class Employee {
   private String cnapsNumber;
   private int dependents = 0;
 
+  @OneToOne
+  @JoinColumn(name = "national_card_id")
+  private NationalCard nationalCard;
 
-  @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE})
+  @ManyToOne
+  @JoinColumn(name = "socio_pro_category_id")
   private SocioPro socioProCategory;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  private NationalCard cin;
-
-  @OneToMany(cascade = CascadeType.ALL)
-  private List<Post> postsList;
-
+  @ManyToOne
+  @JoinColumn(name = "job_role_id")
+  private JobRole jobRole;
 
   private static final String ID_FORMAT = "EMPLOYEE-%s";
 
