@@ -1,10 +1,10 @@
 package com.prog4.controller.mapper;
 
 import com.prog4.controller.model.ModelEmployee;
-import com.prog4.entity.Employee;
-import com.prog4.entity.JobRole;
-import com.prog4.entity.NationalCard;
-import com.prog4.entity.SocioPro;
+import com.prog4.model.Employee;
+import com.prog4.model.JobRole;
+import com.prog4.model.NationalCard;
+import com.prog4.model.SocioPro;
 import com.prog4.service.JobRoleService;
 import com.prog4.service.SocioProService;
 import java.io.IOException;

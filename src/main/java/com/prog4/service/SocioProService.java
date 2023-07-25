@@ -1,6 +1,6 @@
 package com.prog4.service;
 
-import com.prog4.entity.SocioPro;
+import com.prog4.model.SocioPro;
 import com.prog4.repository.SocioProRepository;
 import java.util.List;
 import java.util.Optional;

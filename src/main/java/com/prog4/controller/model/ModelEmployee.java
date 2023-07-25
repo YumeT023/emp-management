@@ -1,6 +1,6 @@
 package com.prog4.controller.model;
 
-import com.prog4.entity.Sex;
+import com.prog4.model.Sex;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,6 @@
 package com.prog4.service;
 
-import com.prog4.entity.JobRole;
+import com.prog4.model.JobRole;
 import com.prog4.repository.JobRoleRepository;
 import java.util.List;
 import java.util.Optional;
