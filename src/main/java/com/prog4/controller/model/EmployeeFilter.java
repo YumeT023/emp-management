@@ -11,4 +11,5 @@ public class EmployeeFilter {
   private String firstname;
   private String lastname;
   private Long job;
+  private String sort;
 }

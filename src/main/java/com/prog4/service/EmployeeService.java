@@ -5,6 +5,10 @@ import com.prog4.repository.EmployeeRepository;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
@@ -16,10 +20,12 @@ public class EmployeeService {
   public List<Employee> findAllByCriteria(
       String firstname,
       String lastname,
-      Long jobRole
-//      Sex sex
+      Long jobRole,
+      Direction direction
   ) {
-    return repository.findEmployeeByCriteria(firstname, lastname, /* sex, */ jobRole);
+    Sort sort = Sort.by(direction, "lastname", "firstname", "job.name");
+    Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE, sort);
+    return repository.findEmployeeByCriteria(firstname, lastname, jobRole, pageable);
   }
 
   public Employee findByMatriculate(String matriculate) {

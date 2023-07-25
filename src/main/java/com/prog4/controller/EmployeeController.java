@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,11 +40,12 @@ public class EmployeeController {
       @RequestParam(name = "firstname", required = false, defaultValue = "") String firstname,
       @RequestParam(name = "lastname", required = false, defaultValue = "") String lastname,
       @RequestParam(name = "job", required = false, defaultValue = "") Long job,
+      @RequestParam(name = "sort", required = false, defaultValue = "ASC") Direction order,
       Model model
   ) {
-    var filterValues = new EmployeeFilter(firstname, lastname, job);
+    var filterValues = new EmployeeFilter(firstname, lastname, job, order.name());
     model.addAttribute("employees", employeeService.findAllByCriteria(
-        filterValues.getFirstname(), filterValues.getLastname(), filterValues.getJob()));
+        filterValues.getFirstname(), filterValues.getLastname(), filterValues.getJob(), order));
     model.addAttribute("filterValues", filterValues);
     return "employee/list-employee";
   }
