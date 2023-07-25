@@ -35,21 +35,6 @@ public class EmployeeController {
   private EmployeeMapper mapper;
   private final AlphanumericValidator alphanumericValidator;
 
-  @GetMapping
-  public String getAllEmployees(
-      @RequestParam(name = "firstname", required = false, defaultValue = "") String firstname,
-      @RequestParam(name = "lastname", required = false, defaultValue = "") String lastname,
-      @RequestParam(name = "job", required = false, defaultValue = "") Long job,
-      @RequestParam(name = "sort", required = false, defaultValue = "ASC") Direction order,
-      Model model
-  ) {
-    var filterValues = new EmployeeFilter(firstname, lastname, job, order.name());
-    model.addAttribute("employees", employeeService.findAllByCriteria(
-        filterValues.getFirstname(), filterValues.getLastname(), filterValues.getJob(), order));
-    model.addAttribute("filterValues", filterValues);
-    return "employee/list-employee";
-  }
-
   @ModelAttribute("socioProCategories")
   public List<SocioPro> getSocioProCategories() {
     return socioProService.findAll();
@@ -64,6 +49,21 @@ public class EmployeeController {
   public String showAddEmployeeForm(Model model) {
     model.addAttribute("employee", new ModelEmployee());
     return "employee/add-employee";
+  }
+
+  @GetMapping
+  public String getAllEmployees(
+      @RequestParam(name = "firstname", required = false, defaultValue = "") String firstname,
+      @RequestParam(name = "lastname", required = false, defaultValue = "") String lastname,
+      @RequestParam(name = "job", required = false, defaultValue = "") Long job,
+      @RequestParam(name = "sort", required = false, defaultValue = "ASC") Direction order,
+      Model model
+  ) {
+    var filterValues = new EmployeeFilter(firstname, lastname, job, order.name());
+    model.addAttribute("employees", employeeService.findAllByCriteria(
+        filterValues.getFirstname(), filterValues.getLastname(), filterValues.getJob(), order));
+    model.addAttribute("filterValues", filterValues);
+    return "employee/list-employee";
   }
 
   @PostMapping("/add")
