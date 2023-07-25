@@ -11,6 +11,8 @@
     />
   </head>
   <body>
+    <div th:replace="~{component/header :: header}"></div>
+
     <h1>Employee List</h1>
     <a th:href="@{'/employees/add'}">add employees</a>
     <a

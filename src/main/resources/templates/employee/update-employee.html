@@ -7,6 +7,8 @@
     <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
   </head>
   <body>
+    <div th:replace="~{component/header :: header}"></div>
+
     <h1>Update Employee</h1>
     <form
       enctype="multipart/form-data"
@@ -58,7 +60,7 @@
       <br />
 
       <label for="photo">Identity Photo:</label>
-      <input type="file" id="photo" name="photo" th:field="*{photo}" />
+      <input id="photo" name="photo" th:field="*{photo}" type="file" />
       <br />
 
       <label for="beggingDate">Hiring Date:</label>

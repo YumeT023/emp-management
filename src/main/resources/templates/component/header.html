@@ -1,0 +1,9 @@
+<div th:fragment="header">
+  <img
+    alt="Aucune image"
+    th:src="'data:image/jpeg;base64,' + ${company.logo}"
+    height="50"
+    width="50"
+  />
+  <h1 th:text="${company.name}"></h1>
+</div>
