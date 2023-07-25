@@ -13,8 +13,13 @@ public class EmployeeService {
   private final EmployeeRepository repository;
   private final NationalCardService ncService;
 
-  public List<Employee> findAll() {
-    return repository.findAll();
+  public List<Employee> findAllByCriteria(
+      String firstname,
+      String lastname,
+      Long jobRole
+//      Sex sex
+  ) {
+    return repository.findEmployeeByCriteria(firstname, lastname, /* sex, */ jobRole);
   }
 
   public Employee findByMatriculate(String matriculate) {

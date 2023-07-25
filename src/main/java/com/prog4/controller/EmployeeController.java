@@ -1,6 +1,7 @@
 package com.prog4.controller;
 
 import com.prog4.controller.mapper.EmployeeMapper;
+import com.prog4.controller.model.EmployeeFilter;
 import com.prog4.controller.model.ModelEmployee;
 import com.prog4.model.JobRole;
 import com.prog4.model.SocioPro;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @AllArgsConstructor
 @Controller
@@ -33,8 +35,16 @@ public class EmployeeController {
   private final AlphanumericValidator alphanumericValidator;
 
   @GetMapping
-  public String getAllEmployees(Model model) {
-    model.addAttribute("employees", employeeService.findAll());
+  public String getAllEmployees(
+      @RequestParam(name = "firstname", required = false, defaultValue = "") String firstname,
+      @RequestParam(name = "lastname", required = false, defaultValue = "") String lastname,
+      @RequestParam(name = "job", required = false, defaultValue = "") Long job,
+      Model model
+  ) {
+    var filterValues = new EmployeeFilter(firstname, lastname, job);
+    model.addAttribute("employees", employeeService.findAllByCriteria(
+        filterValues.getFirstname(), filterValues.getLastname(), filterValues.getJob()));
+    model.addAttribute("filterValues", filterValues);
     return "employee/list-employee";
   }
 

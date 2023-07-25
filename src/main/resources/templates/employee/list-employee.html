@@ -13,6 +13,44 @@
   <body>
     <h1>Employee List</h1>
     <a th:href="@{'/employees/add'}">add employees</a>
+
+    <!--   filter  -->
+    <form action="/employees" method="get" th:object="${filterValues}">
+      <div>
+        <label for="firstname">Firstname</label>
+        <input
+          id="firstname"
+          placeholder="Firstname"
+          th:field="*{firstname}"
+          type="text"
+        />
+      </div>
+
+      <div>
+        <label for="lastname">Lastname</label>
+        <input
+          id="lastname"
+          placeholder="Lastname"
+          th:field="*{lastname}"
+          type="text"
+        />
+      </div>
+
+      <div>
+        <label for="job">Job role:</label>
+        <select id="job" th:field="*{job}">
+          <option value="">-- Select job role --</option>
+          <option
+            th:each="job : ${jobRoles}"
+            th:text="${job.name}"
+            th:value="${job.id}"
+          ></option>
+        </select>
+      </div>
+
+      <button type="submit">Filter</button>
+    </form>
+
     <div th:if="${employees.size() == 0}">No employee to show</div>
     <table th:if="${employees.size() > 0}">
       <tr>

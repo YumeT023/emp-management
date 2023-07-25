@@ -2,6 +2,7 @@ package com.prog4.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -16,6 +17,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import static jakarta.persistence.EnumType.ORDINAL;
+import static jakarta.persistence.EnumType.STRING;
 import static java.util.UUID.randomUUID;
 
 @AllArgsConstructor
@@ -32,6 +35,7 @@ public class Employee {
   private String lastname;
   private String firstname;
   private LocalDate birthdate;
+  @Enumerated(ORDINAL)
   private Sex sex;
   private String phone;
   private String address;
