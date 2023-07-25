@@ -8,7 +8,9 @@ import com.prog4.model.SocioPro;
 import com.prog4.service.EmployeeService;
 import com.prog4.service.JobRoleService;
 import com.prog4.service.SocioProService;
+import com.prog4.service.utils.csv.EmployeeHttpServletWriter;
 import com.prog4.service.validator.AlphanumericValidator;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -49,6 +51,21 @@ public class EmployeeController {
   public String showAddEmployeeForm(Model model) {
     model.addAttribute("employee", new ModelEmployee());
     return "employee/add-employee";
+  }
+
+  @GetMapping("/export-csv")
+  public void exportAsCsv(
+      @RequestParam(name = "firstname", required = false, defaultValue = "") String firstname,
+      @RequestParam(name = "lastname", required = false, defaultValue = "") String lastname,
+      @RequestParam(name = "job", required = false, defaultValue = "") Long job,
+      @RequestParam(name = "sort", required = false, defaultValue = "ASC") Direction order,
+      HttpServletResponse res
+  ) throws IOException {
+    res.setContentType("text/csv");
+    res.setHeader("Content-Disposition", "attachment; filename=\"employees.csv\"");
+    EmployeeHttpServletWriter writer = new EmployeeHttpServletWriter(res);
+    var employees = employeeService.findAllByCriteria(firstname, lastname, job, order);
+    writer.writeAll(employees);
   }
 
   @GetMapping

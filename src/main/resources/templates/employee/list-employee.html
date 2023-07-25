@@ -13,6 +13,7 @@
   <body>
     <h1>Employee List</h1>
     <a th:href="@{'/employees/add'}">add employees</a>
+    <a th:href="@{'/employees/export-csv'}">export as csv</a>
 
     <!--   filter  -->
     <form action="/employees" method="get" th:object="${filterValues}">
