@@ -3,8 +3,10 @@ package com.prog4.controller;
 import com.prog4.controller.mapper.EmployeeMapper;
 import com.prog4.controller.model.EmployeeFilter;
 import com.prog4.controller.model.ModelEmployee;
+import com.prog4.model.Company;
 import com.prog4.model.JobRole;
 import com.prog4.model.SocioPro;
+import com.prog4.service.CompanyService;
 import com.prog4.service.EmployeeService;
 import com.prog4.service.JobRoleService;
 import com.prog4.service.SocioProService;
@@ -34,8 +36,14 @@ public class EmployeeController {
   private final EmployeeService employeeService;
   private final JobRoleService jobRoleService;
   private final SocioProService socioProService;
-  private EmployeeMapper mapper;
+  private final EmployeeMapper mapper;
   private final AlphanumericValidator alphanumericValidator;
+  private final CompanyService companyService;
+
+  @ModelAttribute("company")
+  public Company getCompany() {
+    return companyService.find();
+  }
 
   @ModelAttribute("socioProCategories")
   public List<SocioPro> getSocioProCategories() {
