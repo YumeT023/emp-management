@@ -53,23 +53,29 @@
 
     <div th:if="${employees.size() == 0}">No employee to show</div>
     <table th:if="${employees.size() > 0}">
-      <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Date of Birth</th>
-        <th>More info</th>
-      </tr>
-      <tr th:each="employee : ${employees}">
-        <td th:text="${employee.firstname}"></td>
-        <td th:text="${employee.lastname}"></td>
-        <td th:text="${employee.birthdate}"></td>
-        <td>
-          <a
-            th:href="@{'/employees/show/' + ${employee.matriculate}}"
-            th:value="${employee.matriculate}"
-          ></a>
-        </td>
-      </tr>
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Date of Birth</th>
+          <th>Job</th>
+          <th>email</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr th:each="employee : ${employees}">
+          <td th:text="${employee.firstname}"></td>
+          <td th:text="${employee.lastname}"></td>
+          <td th:text="${employee.birthdate}"></td>
+          <td th:text="${employee.jobRole.name}"></td>
+          <td th:text="${employee.proEmail}"></td>
+          <td>
+            <a th:href="${'/employees/show/' + employee.matriculate}">view</a>
+          </td>
+        </tr>
+      </tbody>
     </table>
   </body>
 </html>
