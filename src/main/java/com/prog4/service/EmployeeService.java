@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmployeeService {
   private final EmployeeRepository repository;
+  private final NationalCardService ncService;
 
   public List<Employee> findAll() {
     return repository.findAll();
@@ -22,6 +23,7 @@ public class EmployeeService {
   }
 
   public Employee save(Employee toSave) {
+    ncService.save(toSave.getNationalCard());
     return repository.save(toSave);
   }
 }

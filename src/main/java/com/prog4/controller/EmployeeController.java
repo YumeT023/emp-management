@@ -3,7 +3,6 @@ package com.prog4.controller;
 import com.prog4.controller.mapper.EmployeeMapper;
 import com.prog4.controller.model.ModelEmployee;
 import com.prog4.entity.JobRole;
-import com.prog4.entity.Sex;
 import com.prog4.entity.SocioPro;
 import com.prog4.service.EmployeeService;
 import com.prog4.service.JobRoleService;
@@ -31,7 +30,6 @@ public class EmployeeController {
   private final EmployeeService employeeService;
   private final JobRoleService jobRoleService;
   private final SocioProService socioProService;
-  private final NationalCardService nationalCardService;
   private EmployeeMapper mapper;
   private final AlphanumericValidator alphanumericValidator;
 
@@ -62,7 +60,6 @@ public class EmployeeController {
     try {
       alphanumericValidator.accept(employee.getCnapsNumber());
       var entity = mapper.toEntity(employee);
-      nationalCardService.save(entity.getNationalCard());
       var saved = employeeService.save(entity);
       return "redirect:/employees/show/".concat(saved.getMatriculate());
     } catch (Exception e) {
@@ -78,17 +75,17 @@ public class EmployeeController {
   }
 
   @GetMapping("/{matriculate}/update")
-  public String renderUpdateEmployeeForm(@PathVariable String matriculate, Model model) {
-    model.addAttribute("newEmployee", employeeService.findByMatriculate(matriculate));
+  public String renderUpdateEmployeeForm(@PathVariable String matriculate, Model model) throws IOException {
+    var employeeModel = mapper.toModel(employeeService.findByMatriculate(matriculate));
+    log.info("spc to update: {}", employeeModel.getSocioPro());
+    model.addAttribute("employee", employeeModel);
     return "employee/update-employee";
   }
 
   @PostMapping("/update")
   public String updateEmployee(@ModelAttribute ModelEmployee updated) throws IOException {
-    log.info("updated matriculate: {}", updated.getMatriculate());
     var entity = mapper.toEntity(updated);
-    nationalCardService.save(entity.getNationalCard());
     employeeService.save(entity);
-    return "redirect:/employees/" + entity.getMatriculate();
+    return "redirect:/employees/show/" + entity.getMatriculate();
   }
 }

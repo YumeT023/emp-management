@@ -46,38 +46,36 @@
           ><span th:text="${employee.address}"></span>
         </p>
         <p><span class="attribute">Job role :</span></p>
-        <span th:text="${employee.jobRole}"></span>
+        <span th:text="${employee.jobRole.name}"></span>
       </div>
-      <div class="second-container">
-        <p>
-          <span class="attribute">Professional email : </span
-          ><span th:text="${employee.proEmail}"></span>
-        </p>
-        <p>
-          <span class="attribute">Personal email : </span
-          ><span th:text="${employee.personalEmail}"></span>
-        </p>
-        <p>
-          <span class="attribute">Hiring date: </span
-          ><span th:text="${employee.hireDate}"></span>
-        </p>
-        <p>
-          <span class="attribute">Departure date: </span
-          ><span th:text="${employee.departureDate}"></span>
-        </p>
-        <p>
-          <span class="attribute">Socio-professional category: </span
-          ><span th:text="${employee.socioProCategory.name}"></span>
-        </p>
-        <p>
-          <span class="attribute">National card n°: </span
-          ><span th:text="${employee.nationalCard.number}"></span>
-        </p>
-        <p>
-          <span class="attribute">N° CNaps : </span
-          ><span th:text="${employee.cnapsNumber}"></span>
-        </p>
-      </div>
+      <p>
+        <span class="attribute">Professional email : </span
+        ><span th:text="${employee.proEmail}"></span>
+      </p>
+      <p>
+        <span class="attribute">Personal email : </span
+        ><span th:text="${employee.personalEmail}"></span>
+      </p>
+      <p>
+        <span class="attribute">Hiring date: </span
+        ><span th:text="${employee.hireDate}"></span>
+      </p>
+      <p>
+        <span class="attribute">Departure date: </span
+        ><span th:text="${employee.departureDate}"></span>
+      </p>
+      <p>
+        <span class="attribute">Socio-professional category: </span
+        ><span th:text="${employee.socioProCategory.name}"></span>
+      </p>
+      <p>
+        <span class="attribute">National card n°: </span
+        ><span th:text="${employee.nationalCard.number}"></span>
+      </p>
+      <p>
+        <span class="attribute">N° CNaps : </span
+        ><span th:text="${employee.cnapsNumber}"></span>
+      </p>
     </div>
   </body>
 </html>

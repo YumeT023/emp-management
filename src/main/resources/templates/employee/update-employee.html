@@ -12,8 +12,18 @@
       enctype="multipart/form-data"
       method="post"
       th:action="@{/employees/update}"
-      th:object="${newEmployee}"
+      th:object="${employee}"
     >
+      <label for="matriculate">Matriculate:</label>
+      <input
+        id="matriculate"
+        readonly
+        required
+        th:field="*{matriculate}"
+        type="text"
+      />
+      <br />
+
       <label for="firstName">First Name:</label>
       <input id="firstName" required th:field="*{firstname}" type="text" />
       <br />
@@ -47,9 +57,9 @@
       <input id="address" required th:field="*{address}" type="text" />
       <br />
 
-      <!--<label for="photo">Identity Photo:</label>
-<input type="file" id="photo" name="photo" th:field="*{image}">
-<br/>-->
+      <label for="photo">Identity Photo:</label>
+      <input type="file" id="photo" name="photo" th:field="*{photo}" />
+      <br />
 
       <label for="beggingDate">Hiring Date:</label>
       <input
@@ -91,14 +101,14 @@
       <select
         id="socioPro"
         required
-        th:field="*{socioProCategory}"
-        th:value="*{socioProCategory.name}"
+        th:field="*{socioPro}"
+        th:value="*{socioPro}"
       >
         <option value="">-- Select Socio-Professional Category --</option>
         <option
-          th:each="socioProCategory : ${socioProCategories}"
-          th:text="${socioProCategory.name}"
-          th:value="${socioProCategory.id}"
+          th:each="spc : ${socioProCategories}"
+          th:text="${spc.name}"
+          th:value="${spc.id}"
         ></option>
       </select>
       <br />
@@ -108,7 +118,7 @@
         id="job_role"
         required
         th:field="*{jobRole}"
-        th:value="*{jobRole.id}"
+        th:value="*{jobRole}"
       >
         <option value="">-- Select Job role --</option>
         <option
@@ -120,15 +130,15 @@
       <br />
 
       <label for="cin">National Card:</label>
-      <input id="cin" required th:field="*{nationalCard.number}" type="text" />
+      <input id="cin" required th:field="*{cinNumber}" type="text" />
       <br />
 
       <label for="cinPlace">National Card Place:</label>
       <input
         id="cinPlace"
         required
-        th:field="*{nationalCard.placeIssue}"
-        th:value="*{nationalCard.placeIssue}"
+        th:field="*{cinPlaceIssue}"
+        th:value="*{cinPlaceIssue}"
         type="text"
       />
       <br />
@@ -137,8 +147,8 @@
       <input
         id="cinDate"
         pattern="yyyy-MM-dd"
-        th:field="*{nationalCard.dateIssue}"
-        th:value="*{nationalCard.dateIssue}"
+        th:field="*{cinDateIssue}"
+        th:value="*{cinDateIssue}"
         type="date"
       />
       <br />

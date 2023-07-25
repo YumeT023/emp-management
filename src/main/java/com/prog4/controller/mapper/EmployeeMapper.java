@@ -54,30 +54,30 @@ public class EmployeeMapper {
         .build();
   }
 
-  public ModelEmployee toModel(Employee model) throws IOException {
-    var nationalCard = model.getNationalCard();
+  public ModelEmployee toModel(Employee entity) throws IOException {
+    var nationalCard = entity.getNationalCard();
 
     return ModelEmployee.builder()
-        .matriculate(model.getMatriculate())
-        .matriculate(model.getMatriculate())
-        .dependents(model.getDependents())
-        .firstname(model.getFirstname())
-        .lastname(model.getLastname())
-        .personalEmail(model.getPersonalEmail())
-        .proEmail(model.getProEmail())
-        .proEmail(model.getProEmail())
-        .phone(model.getPhone())
-        .hireDate(model.getHireDate())
-        .departureDate(model.getDepartureDate())
-        .address(model.getAddress())
-        .birthdate(model.getBirthdate())
-        .cnapsNumber(model.getCnapsNumber())
-        .sex(model.getSex())
+        .matriculate(entity.getMatriculate())
+        .matriculate(entity.getMatriculate())
+        .dependents(entity.getDependents())
+        .firstname(entity.getFirstname())
+        .lastname(entity.getLastname())
+        .personalEmail(entity.getPersonalEmail())
+        .proEmail(entity.getProEmail())
+        .proEmail(entity.getProEmail())
+        .phone(entity.getPhone())
+        .hireDate(entity.getHireDate())
+        .departureDate(entity.getDepartureDate())
+        .address(entity.getAddress())
+        .birthdate(entity.getBirthdate())
+        .cnapsNumber(entity.getCnapsNumber())
+        .sex(entity.getSex())
         .cinDateIssue(nationalCard.getDateIssue())
         .cinPlaceIssue(nationalCard.getPlaceIssue())
         .cinNumber(nationalCard.getNumber())
-        .jobRole(model.getJobRole().getId())
-        .socioPro(model.getSocioProCategory().getId())
+        .jobRole(entity.getJobRole().getId())
+        .socioPro(entity.getSocioProCategory().getId())
         .build();
   }
 }
