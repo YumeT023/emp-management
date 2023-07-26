@@ -3,96 +3,241 @@
   <head>
     <meta charset="UTF-8" />
     <title>Employee List</title>
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #f7f7f7;
+        color: #333;
+      }
+
+      header {
+        background-color: #24292e;
+        padding: 10px;
+        text-align: center;
+      }
+
+      header a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+      }
+
+      h1 {
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #24292e;
+        color: #fff;
+        text-decoration: none;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .btn:hover {
+        background-color: #1c1f23;
+      }
+
+      form {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      form div {
+        margin: 10px;
+      }
+
+      label {
+        font-weight: 600;
+      }
+
+      input[type="text"],
+      select {
+        padding: 10px;
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-family: "Poppins", sans-serif;
+      }
+
+      button[type="submit"] {
+        padding: 10px 20px;
+        background-color: #24292e;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+
+      th,
+      td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ccc;
+      }
+
+      th {
+        background-color: #f1f1f1;
+        color: #000;
+        font-weight: 600;
+      }
+
+      tr:hover {
+        background-color: #f5f5f5;
+      }
+
+      .no-employee {
+        text-align: center;
+        padding: 20px;
+        font-weight: 600;
+        color: #666;
+      }
+
+      .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: #24292e;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+    </style>
   </head>
   <body>
-    <div th:replace="~{component/header :: header}"></div>
+  <header>
+    <img
+            alt="Aucune image"
+            th:src="'data:image/jpeg;base64,' + ${company.logo}"
+            height="50"
+            width="50"
+    />
+  </header>
 
-    <h1>Employee List</h1>
-    <a th:href="@{'/employees/add'}">add employees</a>
-    <a
-      th:href="@{/employees/export-csv(firstname=${filterValues.firstname}, lastname=${filterValues.lastname}, job=${filterValues.job})}"
-      >Export as CSV</a
-    >
+    <div class="container">
+      <h1>Employee List</h1>
+      <a class="btn" href="/employees/add">Add Employees</a>
+      <a
+        class="btn"
+        th:href="@{/employees/export-csv(firstname=${filterValues.firstname}, lastname=${filterValues.lastname}, job=${filterValues.job})}"
+        >Export as CSV</a
+      >
 
-    <!--   filter  -->
-    <form action="/employees" method="get" th:object="${filterValues}">
-      <div>
-        <label for="firstname">Firstname</label>
-        <input
-          id="firstname"
-          placeholder="Firstname"
-          th:field="*{firstname}"
-          type="text"
-        />
+      <!-- Filter -->
+      <form action="/employees" method="get" th:object="${filterValues}">
+        <div>
+          <label for="firstname">Firstname</label>
+          <input
+            id="firstname"
+            placeholder="Firstname"
+            th:field="*{firstname}"
+            type="text"
+          />
+        </div>
+
+        <div>
+          <label for="lastname">Lastname</label>
+          <input
+            id="lastname"
+            placeholder="Lastname"
+            th:field="*{lastname}"
+            type="text"
+          />
+        </div>
+
+        <div>
+          <label for="job">Job role:</label>
+          <select id="job" th:field="*{job}">
+            <option value="">-- Select job role --</option>
+            <option
+              th:each="job : ${jobRoles}"
+              th:text="${job.name}"
+              th:value="${job.id}"
+            ></option>
+          </select>
+        </div>
+
+        <div>
+          <label for="sort">Sorting direction:</label>
+          <select id="sort" th:field="*{sort}">
+            <option value="">-- Sorting direction --</option>
+            <option value="ASC">Ascending</option>
+            <option value="DESC">Descending</option>
+          </select>
+        </div>
+
+        <button class="btn" type="submit">Filter</button>
+      </form>
+
+      <div class="no-employee" th:if="${employees.size() == 0}">
+        No employee to show
       </div>
+      <table th:if="${employees.size() > 0}">
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Date of Birth</th>
+            <th>Job</th>
+            <th>Email</th>
+            <th></th>
+          </tr>
+        </thead>
 
-      <div>
-        <label for="lastname">Lastname</label>
-        <input
-          id="lastname"
-          placeholder="Lastname"
-          th:field="*{lastname}"
-          type="text"
-        />
-      </div>
-
-      <div>
-        <label for="job">Job role:</label>
-        <select id="job" th:field="*{job}">
-          <option value="">-- Select job role --</option>
-          <option
-            th:each="job : ${jobRoles}"
-            th:text="${job.name}"
-            th:value="${job.id}"
-          ></option>
-        </select>
-      </div>
-
-      <div>
-        <label for="sort">Sorting direction:</label>
-        <select id="sort" th:field="*{sort}">
-          <option value="">-- Sorting direction --</option>
-          <option value="ASC">Ascending</option>
-          <option value="DESC">Descending</option>
-        </select>
-      </div>
-
-      <button type="submit">Filter</button>
-    </form>
-
-    <div th:if="${employees.size() == 0}">No employee to show</div>
-    <table th:if="${employees.size() > 0}">
-      <thead>
-        <tr>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Date of Birth</th>
-          <th>Job</th>
-          <th>email</th>
-          <th></th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr th:each="employee : ${employees}">
-          <td th:text="${employee.firstname}"></td>
-          <td th:text="${employee.lastname}"></td>
-          <td th:text="${employee.birthdate}"></td>
-          <td th:text="${employee.jobRole.name}"></td>
-          <td th:text="${employee.proEmail}"></td>
-          <td>
-            <a th:href="${'/employees/show/' + employee.matriculate}">view</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <a th:href="@{'/employees'}">< back</a>
+        <tbody>
+          <tr th:each="employee : ${employees}">
+            <td th:text="${employee.firstname}"></td>
+            <td th:text="${employee.lastname}"></td>
+            <td th:text="${employee.birthdate}"></td>
+            <td th:text="${employee.jobRole.name}"></td>
+            <td th:text="${employee.proEmail}"></td>
+            <td>
+              <a
+                class="btn"
+                th:href="@{/employees/show/{matriculate}(matriculate=${employee.matriculate})}"
+                >View</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </body>
 </html>

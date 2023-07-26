@@ -1,9 +1,19 @@
-<div th:fragment="header">
-  <img
-    alt="Aucune image"
-    th:src="'data:image/jpeg;base64,' + ${company.logo}"
-    height="50"
-    width="50"
-  />
+<header>
+
+  header {
+  background-color: #24292e;
+  padding: 10px;
+  text-align: center;
+  }
+
+  header a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  }
+
+</header>
+
+<headerl th:fragment="header">
   <h1 th:text="${company.name}"></h1>
-</div>
+</headerl>

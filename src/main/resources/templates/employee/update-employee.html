@@ -3,165 +3,250 @@
   <head>
     <meta charset="UTF-8" />
     <title>Update Employee</title>
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #f7f7f7;
+        color: #333;
+      }
+
+      header {
+        background-color: #24292e;
+        padding: 10px;
+        text-align: center;
+      }
+
+      header a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+      }
+
+      h1 {
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      label {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      input[type="text"],
+      input[type="date"],
+      input[type="email"],
+      input[type="number"],
+      select {
+        padding: 10px;
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-family: "Poppins", sans-serif;
+        margin-bottom: 10px;
+      }
+
+      select {
+        margin-bottom: 20px;
+      }
+
+      button[type="submit"] {
+        padding: 10px 20px;
+        background-color: #24292e;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      a {
+        color: #24292e;
+        text-decoration: none;
+        font-weight: 600;
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+      }
+    </style>
   </head>
   <body>
-    <div th:replace="~{component/header :: header}"></div>
-
-    <h1>Update Employee</h1>
-    <form
-      enctype="multipart/form-data"
-      method="post"
-      th:action="@{/employees/update}"
-      th:object="${employee}"
-    >
-      <label for="matriculate">Matriculate:</label>
-      <input
-        id="matriculate"
-        readonly
-        required
-        th:field="*{matriculate}"
-        type="text"
+    <header>
+      <img
+        alt="Aucune image"
+        th:src="'data:image/jpeg;base64,' + ${company.logo}"
+        height="50"
+        width="50"
       />
-      <br />
+    </header>
 
-      <label for="firstName">First Name:</label>
-      <input id="firstName" required th:field="*{firstname}" type="text" />
-      <br />
-
-      <label for="lastName">Last Name:</label>
-      <input id="lastName" required th:field="*{lastname}" type="text" />
-      <br />
-
-      <label for="dateOfBirth">Date of Birth:</label>
-      <input
-        id="dateOfBirth"
-        pattern="yyyy-MM-dd"
-        required
-        th:field="*{birthdate}"
-        type="date"
-      />
-      <br />
-
-      <label for="sex">Sex:</label>
-      <select id="sex" required th:field="*{sex}">
-        <option th:value="M">Male</option>
-        <option th:value="F">Female</option>
-      </select>
-      <br />
-
-      <label for="phoneNbr">Phone Number:</label>
-      <input id="phoneNbr" required th:field="*{phone}" type="text" />
-      <br />
-
-      <label for="address">Address:</label>
-      <input id="address" required th:field="*{address}" type="text" />
-      <br />
-
-      <label for="photo">Identity Photo:</label>
-      <input id="photo" name="photo" th:field="*{photo}" type="file" />
-      <br />
-
-      <label for="beggingDate">Hiring Date:</label>
-      <input
-        id="beggingDate"
-        pattern="yyyy-MM-dd"
-        required
-        th:field="*{hireDate}"
-        type="date"
-      />
-      <br />
-
-      <label for="outDate">Departure Date:</label>
-      <input
-        id="outDate"
-        pattern="yyyy-MM-dd"
-        th:field="*{departureDate}"
-        type="date"
-      />
-      <br />
-
-      <label for="emailPerso">Personal Email:</label>
-      <input
-        id="emailPerso"
-        required
-        th:field="*{personalEmail}"
-        type="email"
-      />
-      <br />
-
-      <label for="emailPro">Professional Email:</label>
-      <input id="emailPro" required th:field="*{proEmail}" type="email" />
-      <br />
-
-      <label for="dependents">Number of Children:</label>
-      <input id="dependents" required th:field="*{dependents}" type="number" />
-      <br />
-
-      <label for="socioPro">Socio-Professional Category:</label>
-      <select
-        id="socioPro"
-        required
-        th:field="*{socioPro}"
-        th:value="*{socioPro}"
+    <div class="container">
+      <h1>Update Employee</h1>
+      <form
+        enctype="multipart/form-data"
+        method="post"
+        th:action="@{/employees/update}"
+        th:object="${employee}"
       >
-        <option value="">-- Select Socio-Professional Category --</option>
-        <option
-          th:each="spc : ${socioProCategories}"
-          th:text="${spc.name}"
-          th:value="${spc.id}"
-        ></option>
-      </select>
-      <br />
+        <label for="matriculate">Matriculate:</label>
+        <input
+          id="matriculate"
+          readonly
+          required
+          th:field="*{matriculate}"
+          type="text"
+        />
 
-      <label for="job_role">Job role:</label>
-      <select
-        id="job_role"
-        required
-        th:field="*{jobRole}"
-        th:value="*{jobRole}"
+        <label for="firstName">First Name:</label>
+        <input id="firstName" required th:field="*{firstname}" type="text" />
+
+        <label for="lastName">Last Name:</label>
+        <input id="lastName" required th:field="*{lastname}" type="text" />
+
+        <label for="dateOfBirth">Date of Birth:</label>
+        <input
+          id="dateOfBirth"
+          pattern="yyyy-MM-dd"
+          required
+          th:field="*{birthdate}"
+          type="date"
+        />
+
+        <label for="sex">Sex:</label>
+        <select id="sex" required th:field="*{sex}">
+          <option th:value="M">Male</option>
+          <option th:value="F">Female</option>
+        </select>
+
+        <label for="phoneNbr">Phone Number:</label>
+        <input id="phoneNbr" required th:field="*{phone}" type="text" />
+
+        <label for="address">Address:</label>
+        <input id="address" required th:field="*{address}" type="text" />
+
+        <label for="photo">Identity Photo:</label>
+        <input id="photo" name="photo" th:field="*{photo}" type="file" />
+
+        <label for="beggingDate">Hiring Date:</label>
+        <input
+          id="beggingDate"
+          pattern="yyyy-MM-dd"
+          required
+          th:field="*{hireDate}"
+          type="date"
+        />
+
+        <label for="outDate">Departure Date:</label>
+        <input
+          id="outDate"
+          pattern="yyyy-MM-dd"
+          th:field="*{departureDate}"
+          type="date"
+        />
+
+        <label for="emailPerso">Personal Email:</label>
+        <input
+          id="emailPerso"
+          required
+          th:field="*{personalEmail}"
+          type="email"
+        />
+
+        <label for="emailPro">Professional Email:</label>
+        <input id="emailPro" required th:field="*{proEmail}" type="email" />
+
+        <label for="dependents">Number of Children:</label>
+        <input
+          id="dependents"
+          required
+          th:field="*{dependents}"
+          type="number"
+        />
+
+        <label for="socioPro">Socio-Professional Category:</label>
+        <select
+          id="socioPro"
+          required
+          th:field="*{socioPro}"
+          th:value="*{socioPro}"
+        >
+          <option value="">-- Select Socio-Professional Category --</option>
+          <option
+            th:each="spc : ${socioProCategories}"
+            th:text="${spc.name}"
+            th:value="${spc.id}"
+          ></option>
+        </select>
+
+        <label for="job_role">Job role:</label>
+        <select
+          id="job_role"
+          required
+          th:field="*{jobRole}"
+          th:value="*{jobRole}"
+        >
+          <option value="">-- Select Job role --</option>
+          <option
+            th:each="jr : ${jobRoles}"
+            th:text="${jr.name}"
+            th:value="${jr.id}"
+          ></option>
+        </select>
+
+        <label for="cin">National Card:</label>
+        <input id="cin" required th:field="*{cinNumber}" type="text" />
+
+        <label for="cinPlace">National Card Place:</label>
+        <input
+          id="cinPlace"
+          required
+          th:field="*{cinPlaceIssue}"
+          th:value="*{cinPlaceIssue}"
+          type="text"
+        />
+
+        <label for="cinDate">National Card Date:</label>
+        <input
+          id="cinDate"
+          pattern="yyyy-MM-dd"
+          th:field="*{cinDateIssue}"
+          th:value="*{cinDateIssue}"
+          type="date"
+        />
+
+        <label for="cnaps_number">CNAPS Number:</label>
+        <input
+          id="cnaps_number"
+          required
+          th:field="*{cnapsNumber}"
+          type="text"
+        />
+
+        <button type="submit">Update</button>
+      </form>
+
+      <a
+        th:href="@{/employees/show/{matriculate}(matriculate=${employee.matriculate})}"
+        >&lt; Back</a
       >
-        <option value="">-- Select Job role --</option>
-        <option
-          th:each="jr : ${jobRoles}"
-          th:text="${jr.name}"
-          th:value="${jr.id}"
-        ></option>
-      </select>
-      <br />
-
-      <label for="cin">National Card:</label>
-      <input id="cin" required th:field="*{cinNumber}" type="text" />
-      <br />
-
-      <label for="cinPlace">National Card Place:</label>
-      <input
-        id="cinPlace"
-        required
-        th:field="*{cinPlaceIssue}"
-        th:value="*{cinPlaceIssue}"
-        type="text"
-      />
-      <br />
-
-      <label for="cinDate">National Card Date:</label>
-      <input
-        id="cinDate"
-        pattern="yyyy-MM-dd"
-        th:field="*{cinDateIssue}"
-        th:value="*{cinDateIssue}"
-        type="date"
-      />
-      <br />
-
-      <label for="cnaps_number">CNAPS Number:</label>
-      <input id="cnaps_number" required th:field="*{cnapsNumber}" type="text" />
-      <br />
-
-      <button type="submit">Update</button>
-    </form>
-
-    <a th:href="@{'/employees/show/' + employee.matriculate}">< back</a>
+    </div>
   </body>
 </html>

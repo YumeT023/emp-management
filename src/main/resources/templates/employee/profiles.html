@@ -5,81 +5,178 @@
     <title>Employee File</title>
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #f7f7f7;
+        color: #333;
+      }
+
+      .header {
+        background-color: #24292e;
+        padding: 10px;
+        text-align: center;
+      }
+
+      .header a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .content {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+      }
+
+      .title {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .title h1 {
+        margin-bottom: 10px;
+      }
+
+      .title img {
+        height: 125px;
+        width: 125px;
+        border-radius: 50%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .edit-btn {
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      .edit-btn a {
+        padding: 5px 10px;
+        background-color: #24292e;
+        color: #fff;
+        text-decoration: none;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .edit-btn a:hover {
+        background-color: #1c1f23;
+      }
+
+      .attribute {
+        font-weight: 600;
+      }
+
+      .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: #24292e;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+    </style>
   </head>
   <body>
-    <div th:replace="~{component/header :: header}"></div>
+    <header>
+      <img
+        alt="Aucune image"
+        th:src="'data:image/jpeg;base64,' + ${company.logo}"
+        height="50"
+        width="50"
+      />
+    </header>
 
     <div class="content">
       <div class="title">
         <h1 th:text="${employee.firstname}"></h1>
+
+        <p th:if="${employee.photo == null}">No image</p>
         <img
-          alt="Aucune image"
+          th:if="${employee.photo != null}"
           th:src="'data:image/jpeg;base64,' + ${employee.photo}"
         />
-        <span class="edit-btn"
-          ><a th:href="@{'/employees/' + ${employee.matriculate} + '/update'}"
+        <span class="edit-btn">
+          <a th:href="@{'/employees/' + ${employee.matriculate} + '/update'}"
             >Edit</a
           >
         </span>
       </div>
       <div class="first-container">
         <p>
-          <span class="attribute">Firstname : </span
-          ><span th:text="${employee.firstname}"></span>
+          <span class="attribute">Firstname : </span>
+          <span th:text="${employee.firstname}"></span>
         </p>
         <p>
-          <span class="attribute">Lastname : </span
-          ><span th:text="${employee.lastname}"></span>
+          <span class="attribute">Lastname : </span>
+          <span th:text="${employee.lastname}"></span>
         </p>
         <p>
-          <span class="attribute">Date of birth: </span
-          ><span th:text="${employee.birthdate}"></span>
+          <span class="attribute">Date of birth: </span>
+          <span th:text="${employee.birthdate}"></span>
         </p>
         <p>
-          <span class="attribute">Sex : </span
-          ><span th:text="${employee.sex}"></span>
+          <span class="attribute">Sex : </span>
+          <span th:text="${employee.sex}"></span>
         </p>
         <p>
-          <span class="attribute">Phone number: </span
-          ><span th:text="${employee.phone}"></span>
+          <span class="attribute">Phone number: </span>
+          <span th:text="${employee.phone}"></span>
         </p>
         <p>
-          <span class="attribute">Adress : </span
-          ><span th:text="${employee.address}"></span>
+          <span class="attribute">Address : </span>
+          <span th:text="${employee.address}"></span>
         </p>
-        <p><span class="attribute">Job role :</span></p>
+        <p>
+          <span class="attribute">Job role :</span>
+        </p>
         <span th:text="${employee.jobRole.name}"></span>
       </div>
       <p>
-        <span class="attribute">Professional email : </span
-        ><span th:text="${employee.proEmail}"></span>
+        <span class="attribute">Professional email : </span>
+        <span th:text="${employee.proEmail}"></span>
       </p>
       <p>
-        <span class="attribute">Personal email : </span
-        ><span th:text="${employee.personalEmail}"></span>
+        <span class="attribute">Personal email : </span>
+        <span th:text="${employee.personalEmail}"></span>
       </p>
       <p>
-        <span class="attribute">Hiring date: </span
-        ><span th:text="${employee.hireDate}"></span>
+        <span class="attribute">Hiring date: </span>
+        <span th:text="${employee.hireDate}"></span>
       </p>
       <p>
-        <span class="attribute">Departure date: </span
-        ><span th:text="${employee.departureDate}"></span>
+        <span class="attribute">Departure date: </span>
+        <span th:text="${employee.departureDate}"></span>
       </p>
       <p>
-        <span class="attribute">Socio-professional category: </span
-        ><span th:text="${employee.socioProCategory.name}"></span>
+        <span class="attribute">Socio-professional category: </span>
+        <span th:text="${employee.socioProCategory.name}"></span>
       </p>
       <p>
-        <span class="attribute">National card n°: </span
-        ><span th:text="${employee.nationalCard.number}"></span>
+        <span class="attribute">National card n°: </span>
+        <span th:text="${employee.nationalCard.number}"></span>
       </p>
       <p>
-        <span class="attribute">N° CNaps : </span
-        ><span th:text="${employee.cnapsNumber}"></span>
+        <span class="attribute">N° CNaps : </span>
+        <span th:text="${employee.cnapsNumber}"></span>
       </p>
     </div>
 
-    <a th:href="@{'/employees'}">< back</a>
+    <a class="back-link" th:href="@{'/employees'}">&lt; Back</a>
   </body>
 </html>
