@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8"/>
+  <head>
+    <meta charset="UTF-8" />
     <title>Employee File</title>
-    <link href="https://fonts.googleapis.com" rel="preconnect"/>
-    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
-</head>
-<body>
-<div th:replace="~{component/header :: header}"></div>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+  </head>
+  <body>
+    <div th:replace="~{component/header :: header}"></div>
 
-<div class="content">
-    <div class="title">
+    <div class="content">
+      <div class="title">
         <h1 th:text="${employee.firstname}"></h1>
         <img
-                alt="Aucune image"
-                th:src="'data:image/jpeg;base64,' + ${employee.photo}"
+          alt="Aucune image"
+          th:src="'data:image/jpeg;base64,' + ${employee.photo}"
         />
         <span class="edit-btn"
-        ><a th:href="@{'/employees/' + ${employee.matriculate} + '/update'}"
-        >Edit</a
-        >
+          ><a th:href="@{'/employees/' + ${employee.matriculate} + '/update'}"
+            >Edit</a
+          >
         </span>
-    </div>
-    <div class="first-container">
+      </div>
+      <div class="first-container">
         <p>
           <span class="attribute">Firstname : </span
           ><span th:text="${employee.firstname}"></span>
@@ -49,35 +49,37 @@
         </p>
         <p><span class="attribute">Job role :</span></p>
         <span th:text="${employee.jobRole.name}"></span>
-    </div>
-    <p>
+      </div>
+      <p>
         <span class="attribute">Professional email : </span
         ><span th:text="${employee.proEmail}"></span>
-    </p>
-    <p>
+      </p>
+      <p>
         <span class="attribute">Personal email : </span
         ><span th:text="${employee.personalEmail}"></span>
-    </p>
-    <p>
+      </p>
+      <p>
         <span class="attribute">Hiring date: </span
         ><span th:text="${employee.hireDate}"></span>
-    </p>
-    <p>
+      </p>
+      <p>
         <span class="attribute">Departure date: </span
         ><span th:text="${employee.departureDate}"></span>
-    </p>
-    <p>
+      </p>
+      <p>
         <span class="attribute">Socio-professional category: </span
         ><span th:text="${employee.socioProCategory.name}"></span>
-    </p>
-    <p>
+      </p>
+      <p>
         <span class="attribute">National card n°: </span
         ><span th:text="${employee.nationalCard.number}"></span>
-    </p>
-    <p>
+      </p>
+      <p>
         <span class="attribute">N° CNaps : </span
         ><span th:text="${employee.cnapsNumber}"></span>
-    </p>
-</div>
-</body>
+      </p>
+    </div>
+
+    <a th:href="@{'/employees'}">< back</a>
+  </body>
 </html>
