@@ -1,6 +1,7 @@
 package com.prog4.repository;
 
 import com.prog4.model.Employee;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, String> {
       "WHERE (:firstname IS NULL OR e.firstname LIKE CONCAT('%', :firstname, '%')) " +
       "AND (:lastname IS NULL OR e.lastname LIKE CONCAT('%', :lastname, '%')) " +
 //      "AND (:sex IS NULL OR sex = CAST(:sex AS smallint)) " +
+      "AND (:hireDate IS NULL OR e.hire_date >= cast(:hireDate as date)) " +
+      "AND (:departureDate IS NULL OR e.departure_date <= cast(:departureDate as date)) " +
       "AND (:jobRole IS NULL OR e.job_role_id = :jobRole)",
       nativeQuery = true)
   List<Employee> findEmployeeByCriteria(
@@ -25,6 +28,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, String> {
       @Param("lastname") String lastname,
 //      @Param("sex") Sex sex,
       @Param("jobRole") Long jobRole,
+      @Param("hireDate") String hireDate,
+      @Param("departureDate") String departureDate,
       Pageable pageable
   );
 }
