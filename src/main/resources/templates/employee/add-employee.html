@@ -86,20 +86,29 @@
         text-align: center;
         margin-top: 20px;
       }
+
+      .error {
+        font-size: 12px;
+        border-radius: 4px;
+        padding: 0.3rem;
+        color: #912b2b;
+        background-color: #f69e9e;
+      }
     </style>
   </head>
   <body>
     <header>
       <img
-              alt="Aucune image"
-              th:src="'data:image/jpeg;base64,' + ${company.logo}"
-              height="50"
-              width="50"
+        alt="Aucune image"
+        th:src="'data:image/jpeg;base64,' + ${company.logo}"
+        height="50"
+        width="50"
       />
     </header>
 
     <div class="container">
       <h1>Add Employee</h1>
+      <p th:if="error" th:text="${error}" class="error"></p>
       <form
         enctype="multipart/form-data"
         method="post"
@@ -131,7 +140,12 @@
         <input id="phoneCode" required th:field="*{phoneCode}" type="text" />
 
         <label for="phoneNumber">Phone Number:</label>
-        <input id="phoneNumber" required th:field="*{phoneNumber}" type="text" />
+        <input
+          id="phoneNumber"
+          required
+          th:field="*{phoneNumber}"
+          type="text"
+        />
 
         <label for="address">Address:</label>
         <input id="address" required th:field="*{address}" type="text" />

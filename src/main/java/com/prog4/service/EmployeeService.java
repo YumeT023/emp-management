@@ -2,8 +2,8 @@ package com.prog4.service;
 
 import com.prog4.model.Employee;
 import com.prog4.repository.EmployeeRepository;
+import com.prog4.service.validator.EmployeeValidator;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -20,6 +20,11 @@ import static java.time.format.DateTimeFormatter.ISO_DATE;
 public class EmployeeService {
   private final EmployeeRepository repository;
   private final NationalCardService ncService;
+  private final EmployeeValidator validator;
+
+  public List<Employee> findAll() {
+    return repository.findAll();
+  }
 
   public List<Employee> findAllByCriteria(
       String firstname,
@@ -43,6 +48,7 @@ public class EmployeeService {
   }
 
   public Employee save(Employee toSave) {
+    validator.accept(toSave);
     ncService.save(toSave.getNationalCard());
     return repository.save(toSave);
   }

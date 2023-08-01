@@ -13,14 +13,11 @@ import com.prog4.service.SocioProService;
 import com.prog4.service.utils.csv.EmployeeHttpServletWriter;
 import com.prog4.service.validator.AlphanumericValidator;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,8 +27,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import static com.prog4.controller.SecurityController.AUTH_KEY;
 
 @AllArgsConstructor
 @Controller
@@ -43,7 +38,6 @@ public class EmployeeController {
   private final JobRoleService jobRoleService;
   private final SocioProService socioProService;
   private final EmployeeMapper mapper;
-  private final AlphanumericValidator alphanumericValidator;
   private final CompanyService companyService;
 
   @ModelAttribute("company")
@@ -102,14 +96,15 @@ public class EmployeeController {
   }
 
   @PostMapping("/add")
-  public String addEmployee(@ModelAttribute ModelEmployee employee, Model modelError) throws IOException {
+  public String addEmployee(@ModelAttribute ModelEmployee employee, Model model) throws IOException {
     try {
-      alphanumericValidator.accept(employee.getCnapsNumber());
       var entity = mapper.toEntity(employee);
       var saved = employeeService.save(entity);
       return "redirect:/employees/show/".concat(saved.getMatriculate());
     } catch (Exception e) {
-      modelError.addAttribute("errorMessage", e.getMessage());
+      log.info("error: {}", e.getMessage());
+      model.addAttribute("employee", employee);
+      model.addAttribute("error", e.getMessage());
       return "employee/add-employee";
     }
   }
@@ -129,9 +124,16 @@ public class EmployeeController {
   }
 
   @PostMapping("/update")
-  public String updateEmployee(@ModelAttribute ModelEmployee updated) throws IOException {
-    var entity = mapper.toEntity(updated);
-    employeeService.save(entity);
-    return "redirect:/employees/show/" + entity.getMatriculate();
+  public String updateEmployee(@ModelAttribute ModelEmployee updated, Model model) throws IOException {
+    try {
+      var entity = mapper.toEntity(updated);
+      employeeService.save(entity);
+      return "redirect:/employees/show/" + entity.getMatriculate();
+    } catch (Exception e) {
+      log.info("error: {}", e.getMessage());
+      model.addAttribute("employee", updated);
+      model.addAttribute("error", e.getMessage());
+      return "employee/update-employee";
+    }
   }
 }

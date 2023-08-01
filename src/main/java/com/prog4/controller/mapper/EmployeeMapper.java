@@ -5,6 +5,7 @@ import com.prog4.model.Employee;
 import com.prog4.model.JobRole;
 import com.prog4.model.NationalCard;
 import com.prog4.model.SocioPro;
+import com.prog4.model.util.Phone;
 import com.prog4.service.JobRoleService;
 import com.prog4.service.SocioProService;
 import java.io.IOException;
@@ -57,7 +58,7 @@ public class EmployeeMapper {
   public ModelEmployee toModel(Employee entity) throws IOException {
     var nationalCard = entity.getNationalCard();
 
-    var phone = entity.getPhone().split(",");
+    var phone = Phone.fromRaw(entity.getPhone());
     return ModelEmployee.builder()
         .matriculate(entity.getMatriculate())
         .matriculate(entity.getMatriculate())
@@ -67,8 +68,8 @@ public class EmployeeMapper {
         .personalEmail(entity.getPersonalEmail())
         .proEmail(entity.getProEmail())
         .proEmail(entity.getProEmail())
-        .phoneCode(phone[0])
-        .phoneNumber(phone[1])
+        .phoneCode(phone.code())
+        .phoneNumber(phone.number())
         .hireDate(entity.getHireDate())
         .departureDate(entity.getDepartureDate())
         .address(entity.getAddress())
