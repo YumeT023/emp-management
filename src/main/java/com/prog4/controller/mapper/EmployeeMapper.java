@@ -40,7 +40,7 @@ public class EmployeeMapper {
         .personalEmail(model.getPersonalEmail())
         .proEmail(model.getProEmail())
         .proEmail(model.getProEmail())
-        .phone(model.getPhone())
+        .phone(model.getPhoneCode() + "," + model.getPhoneNumber())
         .hireDate(model.getHireDate())
         .departureDate(model.getDepartureDate())
         .address(model.getAddress())
@@ -57,6 +57,7 @@ public class EmployeeMapper {
   public ModelEmployee toModel(Employee entity) throws IOException {
     var nationalCard = entity.getNationalCard();
 
+    var phone = entity.getPhone().split(",");
     return ModelEmployee.builder()
         .matriculate(entity.getMatriculate())
         .matriculate(entity.getMatriculate())
@@ -66,7 +67,8 @@ public class EmployeeMapper {
         .personalEmail(entity.getPersonalEmail())
         .proEmail(entity.getProEmail())
         .proEmail(entity.getProEmail())
-        .phone(entity.getPhone())
+        .phoneCode(phone[0])
+        .phoneNumber(phone[1])
         .hireDate(entity.getHireDate())
         .departureDate(entity.getDepartureDate())
         .address(entity.getAddress())

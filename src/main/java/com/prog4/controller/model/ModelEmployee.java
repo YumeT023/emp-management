@@ -20,7 +20,8 @@ public class ModelEmployee {
     private String firstname;
     private LocalDate birthdate;
     private Sex sex;
-    private String phone;
+    private String phoneNumber;
+    private String phoneCode;
     private String address;
     private MultipartFile photo;
     private String personalEmail;

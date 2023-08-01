@@ -96,8 +96,8 @@
     <header>
       <img
         alt="Aucune image"
-        th:src="'data:image/jpeg;base64,' + ${company.logo}"
         height="50"
+        th:src="'data:image/jpeg;base64,' + ${company.logo}"
         width="50"
       />
     </header>
@@ -136,7 +136,7 @@
         </p>
         <p>
           <span class="attribute">Phone number: </span>
-          <span th:text="${employee.phone}"></span>
+          <span th:text="${'+' + employee.phone.replace(',', ' ')}"></span>
         </p>
         <p>
           <span class="attribute">Address : </span>
