@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static java.lang.Integer.MAX_VALUE;
 import static java.time.format.DateTimeFormatter.ISO_DATE;
@@ -23,6 +24,7 @@ public class EmployeeService {
   private final EmployeeRepository repository;
   private final NationalCardService ncService;
   private final EmployeeValidator validator;
+  private final PhoneService phoneService;
 
   public List<Employee> findAll() {
     return repository.findAll();
@@ -51,8 +53,14 @@ public class EmployeeService {
     return optional.orElseThrow(() -> new RuntimeException("Employee.matriculate=" + matriculate + " not found"));
   }
 
+  @Transactional
   public Employee save(Employee toSave) {
-    validator.accept(toSave);
+    validator.validate(toSave);
+    // ensure no one takes existing phone number
+    toSave.getPhone()
+        .stream()
+        .peek(phoneService::ensureNoDuplicateWithDifferentOwner)
+        .forEach(phoneService::save);
     ncService.save(toSave.getNationalCard());
     return repository.save(toSave);
   }

@@ -138,7 +138,7 @@
         <div>
           <span class="attribute">Phone numbers:</span>
           <div th:each="p : ${employee.phone}">
-            <span th:text="${'+' + p.code + ' ' + p.number}"></span>
+            <span th:text="${p}"></span>
           </div>
         </div>
 

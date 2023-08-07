@@ -23,7 +23,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Data
 @Builder
 @EqualsAndHashCode
-@Table(name = "\"phone\"")
+@Table(name = "\"phone\"", uniqueConstraints = @UniqueConstraint(columnNames = {"code", "number"}))
 public class Phone {
   @Id
   @GeneratedValue(strategy = IDENTITY)
@@ -38,4 +38,14 @@ public class Phone {
   @ManyToOne
   @JoinColumn(name = "employee_matriculate", referencedColumnName = "matriculate")
   private Employee employee;
+
+  @Override
+  public String toString() {
+    var buf = new StringBuilder();
+    buf.append("+")
+        .append(code)
+        .append(" ")
+        .append(number);
+    return buf.toString();
+  }
 }

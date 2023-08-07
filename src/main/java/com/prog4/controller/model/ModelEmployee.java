@@ -3,6 +3,7 @@ package com.prog4.controller.model;
 import com.prog4.model.Phone;
 import com.prog4.model.util.Sex;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +21,7 @@ public class ModelEmployee {
   private String firstname;
   private LocalDate birthdate;
   private Sex sex;
-  private List<ModelPhone> phones;
+  private List<ModelPhone> phones = new ArrayList<>();
   private String address;
   private MultipartFile photo;
   private String personalEmail;
