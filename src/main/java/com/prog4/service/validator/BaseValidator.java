@@ -1,8 +1,12 @@
 package com.prog4.service.validator;
 
-public abstract class BaseValidator<T> implements Validator<T> {
+import java.util.List;
 
-  abstract public void validate(T subject);
+public abstract class BaseValidator<T> implements Validator<T> {
+  @Override
+  public void validateMany(List<T> toValidate) {
+    toValidate.forEach(this::validate);
+  }
 
   @Override
   public boolean isNullOrBlank(String val) {

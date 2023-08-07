@@ -31,7 +31,7 @@ public class EmployeeValidator extends BaseValidator<Employee> {
       error.append("At least one phone number is expected. ");
     } else {
       try {
-        employee.getPhone().forEach(phoneValidator::validate);
+        phoneValidator.validateMany(employee.getPhone());
       } catch (Exception e) {
         error.append(e.getMessage());
       }

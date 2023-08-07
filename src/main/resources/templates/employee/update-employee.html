@@ -151,7 +151,6 @@
             <div th:each="phone, cur : *{phones}">
               <input th:field="*{phones[__${cur.index}__].id}" type="hidden" />
               <input
-                maxlength="3"
                 placeholder="country code, eg: 261"
                 required
                 th:field="*{phones[__${cur.index}__].code}"
