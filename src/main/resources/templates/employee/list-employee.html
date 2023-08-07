@@ -142,26 +142,33 @@
     </style>
   </head>
   <body>
-  <header>
-    <img
-            alt="Aucune image"
-            th:src="'data:image/jpeg;base64,' + ${company.logo}"
-            height="50"
-            width="50"
-    />
-  </header>
+    <header>
+      <img
+        alt="Aucune image"
+        height="50"
+        th:src="'data:image/jpeg;base64,' + ${company.logo}"
+        width="50"
+      />
+    </header>
 
     <div class="container">
       <h1>Employee List</h1>
       <a class="btn" href="/employees/add">Add Employees</a>
       <a
         class="btn"
-        th:href="@{/employees/export-csv(firstname=${filterValues.firstname}, lastname=${filterValues.lastname}, job=${filterValues.job})}"
+        th:href="@{/employees/export-csv(
+          firstname=${filter.firstname},
+          lastname=${filter.lastname},
+          job=${filter.job},
+          sex=${filter.sex},
+          sort=${filter.sort},
+          hireDate=${filter.hireDate},
+          departureDate=${filter.departureDate})}"
         >Export as CSV</a
       >
 
       <!-- Filter -->
-      <form action="/employees" method="get" th:object="${filterValues}">
+      <form action="/employees" method="get" th:object="${filter}">
         <div>
           <label for="firstname">Firstname</label>
           <input
@@ -214,12 +221,12 @@
 
         <div>
           <label for="hireDate">hire date:</label>
-          <input type="date" id="hireDate" th:field="*{hireDate}">
+          <input id="hireDate" th:field="*{hireDate}" type="date" />
         </div>
 
         <div>
           <label for="departureDate">departure date:</label>
-          <input type="date" id="departureDate" th:field="*{departureDate}">
+          <input id="departureDate" th:field="*{departureDate}" type="date" />
         </div>
 
         <button class="btn" type="submit">Filter</button>

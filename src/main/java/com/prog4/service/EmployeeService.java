@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -17,6 +18,7 @@ import static java.time.format.DateTimeFormatter.ISO_DATE;
 
 @AllArgsConstructor
 @Service
+@Slf4j
 public class EmployeeService {
   private final EmployeeRepository repository;
   private final NationalCardService ncService;
@@ -39,6 +41,7 @@ public class EmployeeService {
     var _hireDate = hireDate != null ? hireDate.format(ISO_DATE) : null;
     var _depDate = departureDate != null ? departureDate.format(ISO_DATE) : null;
     var _sex = sex.isBlank() ? null : sex;
+
     return repository.findEmployeeByCriteria(
         firstname, lastname, _sex, jobRole, _hireDate, _depDate, pageable);
   }

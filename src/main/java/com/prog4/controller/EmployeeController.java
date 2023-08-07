@@ -92,7 +92,7 @@ public class EmployeeController {
     var filter = new EmployeeFilter(firstname, lastname, sex, job, order.name(), hireDate, departureDate);
     model.addAttribute("employees", employeeService.findAllByCriteria(
         filter.firstname(), filter.lastname(), filter.sex(), filter.job(), order, hireDate, departureDate));
-    model.addAttribute("filterValues", filter);
+    model.addAttribute("filter", filter);
     return "employee/list-employee";
   }
 
