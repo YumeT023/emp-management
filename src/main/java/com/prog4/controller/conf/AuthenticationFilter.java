@@ -24,8 +24,6 @@ public class AuthenticationFilter implements Filter {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     HttpSession session = httpRequest.getSession(false);
 
-    log.info("filtering here {} {}", ((HttpServletRequest) request).getMethod(), ((HttpServletRequest) request).getServletPath());
-
     String path = ((HttpServletRequest) request).getServletPath();
 
     if (!path.startsWith("/employees")) {

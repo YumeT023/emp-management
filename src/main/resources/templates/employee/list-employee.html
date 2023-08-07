@@ -30,7 +30,7 @@
       }
 
       .container {
-        max-width: 800px;
+        /*max-width: 800px;*/
         margin: 0 auto;
         padding: 20px;
         background-color: #fff;
@@ -98,9 +98,10 @@
       }
 
       table {
-        width: 100%;
+        max-width: 100%;
         border-collapse: collapse;
         margin-bottom: 20px;
+        overflow-x: scroll;
       }
 
       th,
@@ -111,6 +112,7 @@
       }
 
       th {
+        width: auto;
         background-color: #f1f1f1;
         color: #000;
         font-weight: 600;
@@ -241,6 +243,11 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Date of Birth</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>dependent children</th>
+            <th>hire date</th>
+            <th>departure date</th>
             <th>Job</th>
             <th>Email</th>
             <th></th>
@@ -252,6 +259,11 @@
             <td th:text="${employee.firstname}"></td>
             <td th:text="${employee.lastname}"></td>
             <td th:text="${employee.birthdate}"></td>
+            <td th:text="${employee.phone}"></td>
+            <td th:text="${employee.address}"></td>
+            <td th:text="${employee.dependents}"></td>
+            <td th:text="${employee.hireDate}"></td>
+            <td th:text="${employee.departureDate}"></td>
             <td th:text="${employee.jobRole.name}"></td>
             <td th:text="${employee.proEmail}"></td>
             <td>
