@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import static java.lang.Integer.MAX_VALUE;
 import static java.time.format.DateTimeFormatter.ISO_DATE;
 
 @AllArgsConstructor
@@ -30,12 +30,11 @@ public class EmployeeService {
       String firstname,
       String lastname,
       Long jobRole,
-      Direction direction,
+      Direction dir,
       LocalDate hireDate,
       LocalDate departureDate
   ) {
-    Sort sort = Sort.by(direction, "lastname", "firstname", "job.name");
-    Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE, sort);
+    var pageable = PageRequest.of(0, MAX_VALUE, Sort.by(dir, "lastname", "firstname", "job.name"));
     var _hireDate = hireDate != null ? hireDate.format(ISO_DATE) : null;
     var _depDate = departureDate != null ? departureDate.format(ISO_DATE) : null;
     return repository.findEmployeeByCriteria(

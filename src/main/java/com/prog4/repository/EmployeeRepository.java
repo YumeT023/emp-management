@@ -1,7 +1,6 @@
 package com.prog4.repository;
 
 import com.prog4.model.Employee;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Pageable;
