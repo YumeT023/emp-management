@@ -11,7 +11,6 @@ import com.prog4.service.EmployeeService;
 import com.prog4.service.JobRoleService;
 import com.prog4.service.SocioProService;
 import com.prog4.service.utils.csv.EmployeeHttpServletWriter;
-import com.prog4.service.validator.AlphanumericValidator;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -65,6 +64,7 @@ public class EmployeeController {
   public void exportAsCsv(
       @RequestParam(name = "firstname", required = false, defaultValue = "") String firstname,
       @RequestParam(name = "lastname", required = false, defaultValue = "") String lastname,
+      @RequestParam(name = "sex", required = false, defaultValue = "") String sex,
       @RequestParam(name = "job", required = false, defaultValue = "") Long job,
       @RequestParam(name = "hireDate", required = false, defaultValue = "") LocalDate hireDate,
       @RequestParam(name = "departureDate", required = false, defaultValue = "") LocalDate departureDate,
@@ -74,7 +74,7 @@ public class EmployeeController {
     res.setContentType("text/csv");
     res.setHeader("Content-Disposition", "attachment; filename=\"employees.csv\"");
     EmployeeHttpServletWriter writer = new EmployeeHttpServletWriter(res);
-    var employees = employeeService.findAllByCriteria(firstname, lastname, job, order, hireDate, departureDate);
+    var employees = employeeService.findAllByCriteria(firstname, lastname, sex, job, order, hireDate, departureDate);
     writer.writeAll(employees);
   }
 
@@ -86,12 +86,13 @@ public class EmployeeController {
       @RequestParam(name = "hireDate", required = false) LocalDate hireDate,
       @RequestParam(name = "departureDate", required = false) LocalDate departureDate,
       @RequestParam(name = "sort", required = false, defaultValue = "ASC") Direction order,
+      @RequestParam(name = "sex", required = false, defaultValue = "") String sex,
       Model model
   ) {
-    var filterValues = new EmployeeFilter(firstname, lastname, job, order.name(), hireDate, departureDate);
+    var filter = new EmployeeFilter(firstname, lastname, sex, job, order.name(), hireDate, departureDate);
     model.addAttribute("employees", employeeService.findAllByCriteria(
-        filterValues.getFirstname(), filterValues.getLastname(), filterValues.getJob(), order, hireDate, departureDate));
-    model.addAttribute("filterValues", filterValues);
+        filter.firstname(), filter.lastname(), filter.sex(), filter.job(), order, hireDate, departureDate));
+    model.addAttribute("filterValues", filter);
     return "employee/list-employee";
   }
 

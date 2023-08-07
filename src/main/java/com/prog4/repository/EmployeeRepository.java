@@ -17,15 +17,15 @@ public interface EmployeeRepository extends JpaRepository<Employee, String> {
       "LEFT JOIN job_role job on e.job_role_id = job.id " +
       "WHERE (:firstname IS NULL OR e.firstname LIKE CONCAT('%', :firstname, '%')) " +
       "AND (:lastname IS NULL OR e.lastname LIKE CONCAT('%', :lastname, '%')) " +
-//      "AND (:sex IS NULL OR sex = CAST(:sex AS smallint)) " +
       "AND (:hireDate IS NULL OR e.hire_date >= cast(:hireDate as date)) " +
       "AND (:departureDate IS NULL OR e.departure_date <= cast(:departureDate as date)) " +
-      "AND (:jobRole IS NULL OR e.job_role_id = :jobRole)",
+      "AND (:jobRole IS NULL OR e.job_role_id = :jobRole)" +
+      "AND (:sex IS NULL OR e.sex = :sex)",
       nativeQuery = true)
   List<Employee> findEmployeeByCriteria(
       @Param("firstname") String firstname,
       @Param("lastname") String lastname,
-//      @Param("sex") Sex sex,
+      @Param("sex") String sex,
       @Param("jobRole") Long jobRole,
       @Param("hireDate") String hireDate,
       @Param("departureDate") String departureDate,

@@ -204,6 +204,15 @@
         </div>
 
         <div>
+          <label for="sex">Sex:</label>
+          <select id="sex" th:field="*{sex}">
+            <option value="">-- Sex --</option>
+            <option value="F">Female</option>
+            <option value="M">Male</option>
+          </select>
+        </div>
+
+        <div>
           <label for="hireDate">hire date:</label>
           <input type="date" id="hireDate" th:field="*{hireDate}">
         </div>

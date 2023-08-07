@@ -29,16 +29,18 @@ public class EmployeeService {
   public List<Employee> findAllByCriteria(
       String firstname,
       String lastname,
+      String sex,
       Long jobRole,
       Direction dir,
       LocalDate hireDate,
       LocalDate departureDate
   ) {
-    var pageable = PageRequest.of(0, MAX_VALUE, Sort.by(dir, "lastname", "firstname", "job.name"));
+    var pageable = PageRequest.of(0, MAX_VALUE, Sort.by(dir, "lastname", "firstname", "sex", "job.name"));
     var _hireDate = hireDate != null ? hireDate.format(ISO_DATE) : null;
     var _depDate = departureDate != null ? departureDate.format(ISO_DATE) : null;
+    var _sex = sex.isBlank() ? null : sex;
     return repository.findEmployeeByCriteria(
-        firstname, lastname, jobRole, _hireDate, _depDate, pageable);
+        firstname, lastname, _sex, jobRole, _hireDate, _depDate, pageable);
   }
 
   public Employee findByMatriculate(String matriculate) {

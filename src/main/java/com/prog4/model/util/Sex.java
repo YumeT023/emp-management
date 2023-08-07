@@ -1,4 +1,4 @@
-package com.prog4.model;
+package com.prog4.model.util;
 
 public enum Sex {
         M,

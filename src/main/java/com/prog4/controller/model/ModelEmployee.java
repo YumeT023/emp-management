@@ -1,6 +1,6 @@
 package com.prog4.controller.model;
 
-import com.prog4.model.Sex;
+import com.prog4.model.util.Sex;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,7 +31,6 @@ public class ModelEmployee {
     private int dependents;
     private Long socioPro;
     private Long jobRole;
-    private List<String> postsList;
     private String cnapsNumber;
     private String cinNumber;
     private String cinPlaceIssue;

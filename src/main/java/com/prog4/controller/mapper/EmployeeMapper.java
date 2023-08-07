@@ -6,6 +6,7 @@ import com.prog4.model.JobRole;
 import com.prog4.model.NationalCard;
 import com.prog4.model.SocioPro;
 import com.prog4.model.util.Phone;
+import com.prog4.model.util.Sex;
 import com.prog4.service.JobRoleService;
 import com.prog4.service.SocioProService;
 import java.io.IOException;
@@ -47,7 +48,7 @@ public class EmployeeMapper {
         .address(model.getAddress())
         .birthdate(model.getBirthdate())
         .cnapsNumber(model.getCnapsNumber())
-        .sex(model.getSex())
+        .sex(model.getSex().name())
         .nationalCard(nationalCard)
         .jobRole(jobRole)
         .socioProCategory(socioProCategory)
@@ -75,7 +76,7 @@ public class EmployeeMapper {
         .address(entity.getAddress())
         .birthdate(entity.getBirthdate())
         .cnapsNumber(entity.getCnapsNumber())
-        .sex(entity.getSex())
+        .sex(Sex.valueOf(entity.getSex()))
         .cinDateIssue(nationalCard.getDateIssue())
         .cinPlaceIssue(nationalCard.getPlaceIssue())
         .cinNumber(nationalCard.getNumber())

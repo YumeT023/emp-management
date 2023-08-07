@@ -35,8 +35,7 @@ public class Employee {
   private String lastname;
   private String firstname;
   private LocalDate birthdate;
-  @Enumerated(ORDINAL)
-  private Sex sex;
+  private String sex;
   private String phone;
   private String address;
   @Column(columnDefinition = "text", nullable = true)
