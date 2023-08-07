@@ -2,13 +2,15 @@ package com.prog4.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,8 +19,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import static jakarta.persistence.EnumType.ORDINAL;
-import static jakarta.persistence.EnumType.STRING;
 import static java.util.UUID.randomUUID;
 
 @AllArgsConstructor
@@ -28,6 +28,7 @@ import static java.util.UUID.randomUUID;
 @Getter
 @Setter
 @EqualsAndHashCode
+@Table(name = "\"employee\"")
 public class Employee {
   @Id
   private String matriculate;
@@ -36,7 +37,10 @@ public class Employee {
   private String firstname;
   private LocalDate birthdate;
   private String sex;
-  private String phone;
+
+  @OneToMany
+  @JoinColumn(name = "employee_matriculate", referencedColumnName = "matriculate")
+  private List<Phone> phone;
   private String address;
   @Column(columnDefinition = "text", nullable = true)
   private String photo;

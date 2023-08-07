@@ -5,7 +5,6 @@ import com.prog4.model.Employee;
 import com.prog4.model.JobRole;
 import com.prog4.model.NationalCard;
 import com.prog4.model.SocioPro;
-import com.prog4.model.util.Phone;
 import com.prog4.model.util.Sex;
 import com.prog4.service.JobRoleService;
 import com.prog4.service.SocioProService;
@@ -19,8 +18,9 @@ import static com.prog4.service.utils.BufferUtils.byteToBase64;
 @AllArgsConstructor
 public class EmployeeMapper {
 
-  private JobRoleService jobRoleService;
-  private SocioProService socioProService;
+  private final JobRoleService jobRoleService;
+  private final SocioProService socioProService;
+  private final PhoneMapper phoneMapper;
 
   public Employee toEntity(ModelEmployee model) throws IOException {
     String photo = model.getPhoto() != null ? byteToBase64(model.getPhoto().getBytes()) : null;
@@ -34,6 +34,7 @@ public class EmployeeMapper {
         .number(model.getCinNumber())
         .build();
 
+    var phones = model.getPhones().stream().map(phone -> phoneMapper.toEntity(phone, model.getMatriculate())).toList();
     return Employee.builder()
         .matriculate(model.getMatriculate())
         .dependents(model.getDependents())
@@ -42,7 +43,7 @@ public class EmployeeMapper {
         .personalEmail(model.getPersonalEmail())
         .proEmail(model.getProEmail())
         .proEmail(model.getProEmail())
-        .phone(model.getPhoneCode() + "," + model.getPhoneNumber())
+        .phone(phones)
         .hireDate(model.getHireDate())
         .departureDate(model.getDepartureDate())
         .address(model.getAddress())
@@ -58,8 +59,7 @@ public class EmployeeMapper {
 
   public ModelEmployee toModel(Employee entity) throws IOException {
     var nationalCard = entity.getNationalCard();
-
-    var phone = Phone.fromRaw(entity.getPhone());
+    var phones = entity.getPhone().stream().map(phoneMapper::toModel).toList();
     return ModelEmployee.builder()
         .matriculate(entity.getMatriculate())
         .matriculate(entity.getMatriculate())
@@ -69,8 +69,7 @@ public class EmployeeMapper {
         .personalEmail(entity.getPersonalEmail())
         .proEmail(entity.getProEmail())
         .proEmail(entity.getProEmail())
-        .phoneCode(phone.code())
-        .phoneNumber(phone.number())
+        .phones(phones)
         .hireDate(entity.getHireDate())
         .departureDate(entity.getDepartureDate())
         .address(entity.getAddress())

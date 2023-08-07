@@ -100,15 +100,15 @@
     <header>
       <img
         alt="Aucune image"
-        th:src="'data:image/jpeg;base64,' + ${company.logo}"
         height="50"
+        th:src="'data:image/jpeg;base64,' + ${company.logo}"
         width="50"
       />
     </header>
 
     <div class="container">
       <h1>Add Employee</h1>
-      <p th:if="error" th:text="${error}" class="error"></p>
+      <p class="error" th:if="error" th:text="${error}"></p>
       <form
         enctype="multipart/form-data"
         method="post"
@@ -136,16 +136,33 @@
           <option th:value="F">Female</option>
         </select>
 
-        <label for="phoneCode">country code:</label>
-        <input id="phoneCode" required th:field="*{phoneCode}" type="text" />
-
-        <label for="phoneNumber">Phone Number:</label>
-        <input
-          id="phoneNumber"
-          required
-          th:field="*{phoneNumber}"
-          type="text"
-        />
+        <div>
+          <label for="phones">Phone numbers</label>
+          <div id="phones">
+            <div th:each="phone, cur : *{phones}">
+              <input th:field="*{phones[__${cur.index}__].id}" type="hidden" />
+              <input
+                maxlength="3"
+                placeholder="country code, eg: 261"
+                required
+                th:field="*{phones[__${cur.index}__].code}"
+              />
+              <input
+                maxlength="10"
+                placeholder="number"
+                required
+                th:field="*{phones[__${cur.index}__].number}"
+              />
+              <button
+                th:onclick="'removeEntry(' + ${cur.index} + ')'"
+                type="button"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+          <button th:onclick="newPhoneEntry()" type="button">Add Phone</button>
+        </div>
 
         <label for="address">Address:</label>
         <input id="address" required th:field="*{address}" type="text" />
@@ -243,5 +260,10 @@
 
       <a th:href="@{/employees}">&lt; Back</a>
     </div>
+    <script
+      defer
+      th:inline="javascript"
+      th:src="@{/scripts/multiple_phone.js}"
+    ></script>
   </body>
 </html>

@@ -134,10 +134,14 @@
           <span class="attribute">Sex : </span>
           <span th:text="${employee.sex}"></span>
         </p>
-        <p>
-          <span class="attribute">Phone number: </span>
-          <span th:text="${'+' + employee.phone.replace(',', ' ')}"></span>
-        </p>
+
+        <div>
+          <span class="attribute">Phone numbers:</span>
+          <div th:each="p : ${employee.phone}">
+            <span th:text="${'+' + p.code + ' ' + p.number}"></span>
+          </div>
+        </div>
+
         <p>
           <span class="attribute">Address : </span>
           <span th:text="${employee.address}"></span>

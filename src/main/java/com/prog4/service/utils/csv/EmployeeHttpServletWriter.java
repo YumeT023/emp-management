@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
+import static java.util.stream.Collectors.joining;
+
 @Slf4j
 public class EmployeeHttpServletWriter extends HttpServletWriter<Employee> {
   public EmployeeHttpServletWriter(HttpServletResponse res) throws IOException {
@@ -42,8 +44,8 @@ public class EmployeeHttpServletWriter extends HttpServletWriter<Employee> {
         subject.getLastname(),
         subject.getFirstname(),
         subject.getBirthdate().toString(),
-        subject.getSex().toString(),
-        subject.getPhone(),
+        subject.getSex(),
+        "[" + subject.getPhone().stream().map(p -> "+" + p.getCode() + " " + p.getNumber()).collect(joining(" - ")) + "]",
         subject.getAddress(),
         subject.getPersonalEmail(),
         subject.getProEmail(),

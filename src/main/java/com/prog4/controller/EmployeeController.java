@@ -128,6 +128,7 @@ public class EmployeeController {
   public String updateEmployee(@ModelAttribute ModelEmployee updated, Model model) throws IOException {
     try {
       var entity = mapper.toEntity(updated);
+      log.info("phones {}", entity.getPhone());
       employeeService.save(entity);
       return "redirect:/employees/show/" + entity.getMatriculate();
     } catch (Exception e) {
